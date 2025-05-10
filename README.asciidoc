@@ -1,0 +1,170 @@
+= Team Marvin
+
+=== The programmers 
+
+*Jaagup Jagomägi* and *Robin Subbi*
+
+*Programming:*  
+
+Overall, we think our code is very well written and commented. 
+We experienced no major performance issues or bugs we couldn’t pinpoint, 
+all of our solutions were pretty simple and intuitive 
+and our robot always performed near the top of the roster. 
+
+The only bad thing we could think of is that the code on the main branch 
+is very old and meant for the test robot. After getting our new mechanics 
+and electronics, we managed to repeatedly short circuit our mainboard, 
+even 2 days before Delta X, and kept hopping between the new and old boards. 
+Due to this constant back and forth rewriting to match different board firmware, 
+we didn’t have the time (or energy) to merge the final code used in Delta X. 
+
+=== The electronic
+
+*Hanna Maria Fatkin*  
+
+*Electronics:*  
+
+Overall, I'm quite satisfied with how the project turned out, especially since the board worked as expected. 
+However, one area I could have improved on was cable management. 
+Unfortunately, we didn't collaborate enough with the mechanic, which led to a messy appearance. For future projects,  
+I would ensure better coordination with the mechanic and plan cable routing more carefully to improve both  
+functionality and aesthetics. 
+
+image::Screenshot_2025-01-06_at_22.44.40.png[picture of pcb, width=600]
+
+image::Screenshot_2025-01-09_at_11.42.56.png[Electronics inside of the robot, width=600]
+
+
+=== The mechanic
+*Oliver Lentso*  
+
+The robot turned out fine but if I'm being completely honest, I could've done a lot better.  
+Most of the robot worked as intended but it could've been a lot better. For example, I  
+messed up with the outer walls which caused issues with the ball (only once but still).  
+The thrower worked well but not all of its features were well done. The angle regulator  
+wasn't very stable. The second problem with the thrower was fitting it into the robot.  
+When designing it I accounted for perfect cuts and bolts, but the real world isn't perfect   
+so when it was time to assemble to robot the thrower was a tad bit too wide so it was a very  
+tight fit which required some filing. Overall we decided to not use the angle regulator so the  
+thrower was at a fixed angle of 20 degrees. It was 118mm long, 55.6mm wide and 64.9mm high.  
+It was designed to use one thrower motor and one eating motor. One would throw the ball while the other would pick it up.  
+Last but not least I should've communicated more with the electronic because the assembly was  
+rough due to me not accounting for the wiring inside the robot. Overall it worked out, but I  
+would definitely make the bot a bit prettier.  
+
+image::Screenshot_2025-01-09_at_12.10.39.png[Picture of robot, width=600]
+
+image::Screenshot_2025-01-09_at_12.10.51.png[Picture of thrower, width=600]
+
+work related links:  
+https://a360.co/3Wd1KbY
+
+== Personal comments:  
+
+=== Fatkin:  
+
+I worked on the electronics for the robot.  
+I learned how to create schematics, design PCBs,   
+improved my soldering skills, and for the first time, I wrote firmware.   
+Next time, I would probably try to communicate more with my teammates,  
+as the programmers had a hard time getting their code to work with my board,   
+and the mechanic struggled to fit my wiring properly.  
+These issues could have been avoided if I had discussed   
+things more thoroughly with everyone involved.  
+
+I really enjoyed building the basketball robot because  
+it gave me the opportunity to work on something very practical.   
+For next year’s students, who are planning to do electronics,  
+I highly recommend starting as early as possible and attending the lab sessions regularly.  
+That way, you can get help along the way and are more likely to finish everything on time.  
+Also, keep in mind that reviewing can take a lot of time.  
+
+All the instructors I worked with were very helpful.   
+I’d especially like to highlight Reiko,  
+who provided very detailed and quick feedback,  
+which was incredibly valuable.  
+
+=== Jagomägi:  
+I worked on the behavioural logic of the robot and calibrated the constants.  
+
+I learned to suck it up and implement things I didn't need or want or use (logging),  
+so I could get my code merged, as arguing with the instructors took more energy.  
+On a more serious note, I learned about developing software as a team and  
+how to make a robot behave how I wanted.  
+
+Next time I would aim higher in terms of throwing accuracy. It was always just  
+"good enough", but In the last day before the competition, I managed to improve  
+the precision by over 4 times with some simple fixes.  
+
+I liked the depth of the course - besides the starter code, the entire robot was  
+made by our team, which gives a sense of pride in having accomplished something yourself.  
+
+For the next year's students I recommend listening to the instructors and taking  
+their advice to heart early. They know what they are talking about, and while you  
+may disagree on some points, they are there to help you.  
+
+For the instructors - you were wonderful, and I learned a lot, but I do have one more gripe:  
+If I want to merge code for "3 of 11 balls", then I don't think I should have to  
+develop solutions for something that only matters in "dealing with opponent robot".  
+It doesn't matter that my code can't accurately measure distance with obstacles in the way -  
+it is in no way required to complete my intended task, and not letting me merge or attempt  
+the task due to that is stupid.  
+
+
+=== Subbi:  
+I mostly worked on image processing and movement.  
+
+I learned how to do pair programming, as well as how to program independently without interfering  
+with each other’s code. I also picked up some neat OpenCV functions and worked on omnidirectional movement logic.   
+Additionally, I learned that things rarely go according to plan (e.g., our mainboard burned out two days before Delta X).  
+
+Next time, I would calibrate the thrower for each 20 cm section of the field and use a formula  
+specific to each section, rather than relying on a single formula. I would also adjust the  
+camera positioning slightly to improve visibility of the lines. Another thing I’d change is  
+not wasting a month doing nothing just because we were a month and a half ahead of schedule.  
+
+I really enjoyed building this robot, especially since we worked exceptionally well as a team.  
+Everyone completed their tasks and was always ready to help when needed. A major highlight for me  
+was having 24-hour access to the field and lab, which allowed us to work until we were completely exhausted.  
+
+For next year’s students, I suggest focusing on making their robot avoid balls that are too close to the basket   
+and improving its throwing accuracy as much as possible.  
+
+My suggestion for the instructors is related to Delta X. There should be a window before each match   
+where both teams can adjust their robot’s thresholding. The time while the balls are being placed  
+isn’t suitable for this, as instructors moving around on the court may step into the frame. Alternatively,  
+the lighting on the court should remain consistent throughout the competition (though I understand this might be unrealistic).   
+Additionally, the testing field should match the conditions of the main field. Otherwise, the testing field becomes  
+almost useless and may lead to issues with the robot due to differences in environmental factors.  
+
+
+=== Lentso:  
+My job as the mechanic was to design and give my team a robot that could compete in Delta X.  
+I'm happy with the robot and it got us to the finals which is really good but I put in a lot  
+less effort in the second part of the semester than I should have. Nonetheless I learned  
+a lot and I'm happy about that. I found a great love for mechanics and the production process.  
+
+I learned how to design a robot from scratch to fit certain parameters and how to bring that  
+design into reality. I got to use Fusion which I eventually came to enjoy. I found big  
+differences between Fusion and Solidworks and what are the cons and pros of both which is  
+handy for future projects.  
+
+If we get more into specifics then I definitely learned a lot in terms of tolerances because  
+the design in Fusion is perfect unlike the real world. I learned a lot about 3d printing as  
+well as milling. I also learned how to use a lathe for metal parts. It was definitely the most  
+interesting new skill because I had never done anything like it before.  
+
+Overall I really liked this course, probably the most fun course so far and if I could I would  
+love to take this course 2 more times just to try electronics and programming as well.   
+I really liked the amount of independent work with a little bit of help here and there from the  
+instructors. Without a doubt the best thing about the course was 24/7 access to the lab which  
+gave me a really good chance to plan my time and when to work. Honestly I can't think of anything  
+that I didn't like about this course.
+
+My tips for the next year students would be to look at the task documentation. There's a lot of  
+useful information there that I disregarded because I mostly tried to work out the logistics of   
+mechanics on my own. Definitely listen to the instructors as well, most of the time if you get into   
+an argument, they're right.  
+
+Honestly I don't really have any criticism for the instructors. Usually when I wrote to one of them  
+then I always got a response and some feedback.  

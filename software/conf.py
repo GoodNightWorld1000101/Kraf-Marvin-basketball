@@ -1,0 +1,59 @@
+from color import Color
+"""robot properties constants"""
+ROBOT_RADIUS = 0.175
+WHEEL_RADIUS = 0.035
+GEARBOX_REDUCTION_RATIO = 18.75
+ENCODER_EDGES = 64
+PID_FREQUENCY = 100
+THROWER_SCREEN_POSITION = 0.48
+
+"RealsenseCamera constants"
+DEBUG = True
+RGB_WIDTH: int = 848
+RGB_HEIGHT: int = 480
+RGB_FRAMERATE: int = 60
+DEPTH_WIDTH: int = 848
+DEPTH_HEIGHT: int = 480
+DEPTH_FRAMERATE: int = 60
+EXPOSURE: float = 50.0
+WHITE_BALACE: int = 3500
+DEPTH_ENABLED: bool = True
+
+""""Image processing constants"""
+LINE_COLOR_THRESHOLD: int = 5
+LINE_COLOR_SEQUENCE: list = [Color.WHITE, Color.BLACK]
+RANDOM_BASKET_PIXELS: int = 10
+
+"""constants to control robot movement behaviour"""
+ROBOT_SPEED = 3
+SEEK_ROTATION_SPEED = 1.8
+MEET_ROTATION_SPEED = 4.5
+YEET_SPEED = 2 / 9
+APPROACH_FUNCTION_A = 1.5
+APPROACH_FUNCTION_B = -0.5
+
+
+"""orbit constants"""
+ORBIT_SPEED = 0.6
+ORBIT_ROTATION_SPEED_WEIGHT = 8
+ORBIT_START_DISTANCE = int(RGB_HEIGHT * 0.45) # % of vertical resolution
+ORBIT_DISTANCE = int(RGB_HEIGHT * 0.15) # % of vertical resolution
+ORBIT_STOP_DISTANCE = ORBIT_START_DISTANCE + (RGB_HEIGHT * 0.05) # % of vertical resolution
+ORBIT_MIN_SLOW_DOWN = 0.10
+ORBIT_DISTANCE_SPEEDUP_WEIGHT = 0.6
+
+"""ball throwing constants"""
+BLIND_THROW_DURATION = 2
+THROW_START_THRESHOLD = 0.025
+YEET_MOVEMENT_CORRECTION = 0.009
+# Curve Fitted: 0.313268*dist + 433.557
+LINEAR_A = 0.313268
+LINEAR_B = 417.557
+
+"websocket variables"
+ID = "marvin"
+IP = "ws://localhost:8222"
+BYPASS_REFEREE = True
+MAGENTA_BASKET = "magenta"
+BLUE_BASKET = "blue"
+TARGET_BASKET = MAGENTA_BASKET

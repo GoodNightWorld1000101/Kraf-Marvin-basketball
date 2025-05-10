@@ -1,0 +1,7 @@
+#Ignore all folders containing binaries on the software branch
+__pycache__
+robot_env
+segment_module
+testing/
+debug.log
+*.pyc
