@@ -78,6 +78,46 @@ class ImageProcessor():
     def stop(self):
         self.camera.close()
 
+    def point_detection(self,side_x:int,side_y:int, middle_x:int,middle_y:int)->dict:
+        """Arguments
+        function that returns a dictionary of the coordinates of 3 circles:LEFT,RIGHT,MIDDLE"""
+        masks = {"RIGHT":None,"LEFT":None,"MIDDLE":None}
+        center_left = (width/2 - side_x, side_y)
+        center_right = (width/2 + side_x, side_y)
+        center_middle = (middle_x, middle_y)
+        
+        radius = 10
+        color = (0, 255, 0)  
+        thickness = -1       
+        mask = np.zeros((height, width), dtype=np.uint8)
+        cv2.circle(mask, center_left, radius, color, thickness)
+        blob_pixels = np.column_stack(np.where(mask == 255))
+        masks["LEFT"]=(blob_pixels)
+
+        mask = np.zeros((height, width), dtype=np.uint8)
+        cv2.circle(mask, center_right, radius, color, thickness)
+        blob_pixels = np.column_stack(np.where(mask == 255))
+        masks["RIGHT"]=blob_pixels
+
+        mask = np.zeros((height, width), dtype=np.uint8)
+        cv2.circle(mask, center_middle, radius, color, thickness)
+        blob_pixels = np.column_stack(np.where(mask == 255))
+        masks["MIDDLE"]=blob_pixels
+
+        return masks
+
+    def is_ball_too_close_to_wall(self,ball_x,ball_y,depth_frame,color_frame):
+        if ball_y > 50:
+            ball_y-=50
+        if depth_frame[ball_y][ball_x]<500:
+            if color_frame[ball_y][ball_x] == 5 or color_frame[ball_y][ball_x]==6 or color_frame[ball_y][ball_x]==2 or color_frame[ball_y][ball_x]==3:
+                return False
+            else:
+                return True
+        else:
+            return True
+            
+
     def ball_inbounds_check(self, fragments, y_coords:list, x_coords:list):
         """Function that takes the fragmented frame and 2D matrix of line Y and X coordinates 
         and returns if balls are inside court or not. It does so by comparing a constant to the 
@@ -120,8 +160,10 @@ class ImageProcessor():
                 working_color = pixel_color
                 working_counter = 1
         return True
+    
 
-    def analyze_balls(self, t_balls, fragments) -> list:
+
+    def analyze_balls(self, t_balls, fragments,depth_frame) -> list:
         t_balls = cv2.erode(t_balls,self.erode_circle,iterations = 1)
         t_balls = cv2.dilate(t_balls,self.dialate_circle,iterations = 5)
         contours, hierarchy = cv2.findContours(t_balls, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
@@ -134,7 +176,7 @@ class ImageProcessor():
 
             size = cv2.contourArea(contour)
             
-            if size <= 25:
+            if size <= 40:
                 continue
             else:
                 x, y, w, h = cv2.boundingRect(contour)
@@ -145,8 +187,8 @@ class ImageProcessor():
                 obj_x = int(x + (w/2))
                 obj_y = int(y + (h/2))
                 obj_dst = obj_y
-
-                if self.ball_inbounds_check(fragments, ys, xs):
+                #balls.append(Object(x = obj_x, y = obj_y, size = size, distance = obj_dst, exists = True))
+                if self.ball_inbounds_check(fragments, ys, xs) and self.is_ball_too_close_to_wall(obj_x,obj_y,depth_frame,fragments):
                     balls.append(Object(x = obj_x, y = obj_y, size = size, distance = obj_dst, exists = True))
                     self.debug_frame[ys, xs] = [0, 0, 0]
                 if self.debug:
@@ -165,23 +207,22 @@ class ImageProcessor():
 
             size = cv2.contourArea(contour)
 
-            if size < 100:
-                continue
+            if size > 100:
+                #continue
 
-            x, y, w, h = cv2.boundingRect(contour)
+                x, y, w, h = cv2.boundingRect(contour)
 
-            obj_x = int(x + (w/2))
-            obj_y = int(y + (h/2))
-            # Choosing random pixels from basket, and averaging their distances to get a more accurate measurement
-            mask = np.zeros((self.camera.rgb_height, self.camera.rgb_width), dtype=np.uint8)
-            cv2.drawContours(mask, [contour], -1, 255, -1)
-            blob_pixels = np.column_stack(np.where(mask == 255))
-            random_pixels = random.sample(list(blob_pixels), RANDOM_BASKET_PIXELS)
-            for (random_x, random_y) in random_pixels:
-                distances.append(depth[random_x, random_y])
-            obj_dst = sum(distances) / len(distances)
-
-            baskets.append(Object(x = obj_x, y = obj_y, size = size, distance = obj_dst, exists = True))
+                obj_x = int(x + (w/2))
+                obj_y = int(y + (h/2))
+                # Choosing random pixels from basket, and averaging their distances to get a more accurate measurement
+                mask = np.zeros((self.camera.rgb_height, self.camera.rgb_width), dtype=np.uint8)
+                cv2.drawContours(mask, [contour], -1, 255, -1)
+                blob_pixels = np.column_stack(np.where(mask == 255))
+                random_pixels = random.sample(list(blob_pixels), RANDOM_BASKET_PIXELS)
+                for (random_x, random_y) in random_pixels:
+                    distances.append(int(depth[random_x, random_y]))
+                obj_dst = sum(distances) / len(distances)
+                baskets.append(Object(x = obj_x, y = obj_y, size = size, distance = obj_dst, exists = True))
         baskets.sort(key= lambda x: x.size)
         basket = next(iter(baskets), Object(exists = False))
         if self.debug:
@@ -203,7 +244,7 @@ class ImageProcessor():
         if self.debug:
             self.debug_frame = np.copy(color_frame)
 
-        balls = self.analyze_balls(self.t_balls, self.fragmented)
+        balls = self.analyze_balls(self.t_balls, self.fragmented,depth_frame)
         basket_b = self.analyze_baskets(self.t_basket_b,depth_frame, debug_color=c.Color.BLUE.color.tolist())
         basket_m = self.analyze_baskets(self.t_basket_m, depth_frame,debug_color=c.Color.MAGENTA.color.tolist())
 
